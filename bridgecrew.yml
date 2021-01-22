@@ -1,0 +1,20 @@
+- hosts: localhost
+  gather_facts: false
+
+- hosts: localhost
+  tasks:
+
+     - name: Create a role with description and tags
+       community.aws.iam_role:
+         name: mynewrole
+         assume_role_policy_document: "{{ lookup('file','assume.json') }}"
+         description: This is My New Role
+         tags:
+           env: dev
+     - name: create inline policy
+       community.aws.iam_policy:
+         iam_type: role
+         iam_name: mynewrole
+         policy_document: policy.json
+         policy_name: jimbo
+         state: present

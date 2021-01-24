@@ -2,14 +2,19 @@
   "Statement": [
     {
       "Action": [
-        "elasticloadbalancing:Describe*",
-        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-        "ec2:Describe*",
-        "ec2:AuthorizeSecurityGroupIngress"
+        "ecr:GetLifecyclePolicy",
+        "lambda:Get*",
+        "s3:ListBucket",
+        "sns:GetSubscriptionAttributes",
+        "dynamodb:ListTagsOfResource",
+        "sns:ListTagsForResource",
+        "es:ListTags"
       ],
       "Effect": "Allow",
-      "Resource": "*"
+      "Resource": [
+        "*"
+      ],
+      "Sid": "AllowDescribingResources"
     }
   ],
   "Version": "2012-10-17"

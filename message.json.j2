@@ -1,0 +1,18 @@
+{
+   "RequestType":"{{ request_type }}",
+   "ServiceToken":"{{ bridgecrew_sns_topic }}",
+   "PhysicalResourceId":"",
+   "Source":"Ansible",
+   "ResourceProperties":{
+      "ServiceToken":"{{ bridgecrew_sns_topic }}",
+      "Account":"bridgecrew",
+      "ActionType":"AWSConfigActivation",
+      "AWSAccountId":"{{ account_id }}",
+      "ExternalId":"{{ ExternalID }}",
+      "TemplateVersion":"1.5",
+      "Type":"AWS_CT_CFG",
+      "CrossAccountRoleArn":"{{ role_arn }}",
+      "CustomerName":"{{ customer_name }}",
+      "IntegrationName":"Ansible"
+   }
+}

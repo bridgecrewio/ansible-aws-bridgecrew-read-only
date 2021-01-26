@@ -13,7 +13,8 @@
     role_name: "{{ ResourceNamePrefix }}-bridgecrewcwssarole"
 
   tasks:
-     - shell: uuidgen
+     - name: Generate UUID
+       shell: uuidgen
        register: ExternalID
      #- debug: var=ExternalID.stdout
      - name: Get the current caller identity information
@@ -47,4 +48,3 @@
           msg: "{{ lookup('template','message.json.j2', convert_data=true) | to_json }}"
           subject: "Enable {{ customer_name }} for AWS account  {{ caller_info.account }}"
           topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"
-

@@ -1,7 +1,7 @@
 ---
 # yamllint disable rule:line-length
 default_language_version:
-  python: python3.9
+  python: python3.8
 repos:
   - repo: git://github.com/pre-commit/pre-commit-hooks
     rev: v3.4.0
@@ -16,20 +16,6 @@ repos:
           - --autofix
       - id: detect-aws-credentials
       - id: detect-private-key
-  - repo: https://github.com/ansible-community/ansible-lint.git
-    rev: v5.0.0a0
-    hooks:
-      - id: ansible-lint
-        always_run: true
-        pass_filenames: false
-        exclude_types: [markdown, shell]
-        # do not add file filters here as ansible-lint does not give reliable
-        # results when called with individual files.
-        # https://github.com/ansible/ansible-lint/issues/611
-        verbose: true
-        entry: ansible-lint . --force-color -p -v
-        files: ^.ansible/
-        language_version: python3.9
   - repo: git://github.com/igorshubovych/markdownlint-cli
     rev: v0.26.0
     hooks:

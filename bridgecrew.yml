@@ -13,8 +13,8 @@
     role_name: "{{ ResourceNamePrefix }}-bridgecrewcwssarole"
 
   tasks:
-     - name: Generate UUID
-       shell: uuidgen
+     - name: Generate UUID # noqa 301
+       command: uuidgen
        register: ExternalID
      #- debug: var=ExternalID.stdout
      - name: Get the current caller identity information

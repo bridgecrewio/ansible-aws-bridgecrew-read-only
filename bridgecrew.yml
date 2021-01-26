@@ -1,9 +1,8 @@
+---
 - hosts: localhost
-  gather_facts: false
-
+  gather_facts: true
 - hosts: localhost
   vars:
-    ExternalID:  7e935c18-a666-45f8-81bf-2afa672be3b7
     bridgecrew_account_id: 890234264427
     org_name: james
     ResourceNamePrefix:  "{{ org_name }}-bc-read"
@@ -14,6 +13,9 @@
     role_name: "{{ ResourceNamePrefix }}-bridgecrewcwssarole"
 
   tasks:
+     - shell: uuidgen
+       register: ExternalID
+     #- debug: var=ExternalID.stdout
      - name: Get the current caller identity information
        amazon.aws.aws_caller_info:
        register: caller_info

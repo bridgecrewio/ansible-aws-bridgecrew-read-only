@@ -20,3 +20,10 @@ repos:
     rev: v0.26.0
     hooks:
       - id: markdownlint
+  - repo: git://github.com/adrienverge/yamllint
+    rev: v1.25.0
+    hooks:
+      - id: yamllint
+        files: \.(yaml|yml)$
+        types: [file, yaml]
+        entry: yamllint --strict

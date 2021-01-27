@@ -5,7 +5,7 @@
   vars:
     bridgecrew_account_id: 890234264427
     org_name: james
-    ResourceNamePrefix:  "{{ org_name }}-bc-read"
+    ResourceNamePrefix: "{{ org_name }}-bc-read"
     request_type: Create
     customer_name: "{{ org_name }}"
     resource_name_prefix: "{{ org_name }}-bc"
@@ -13,38 +13,38 @@
     role_name: "{{ ResourceNamePrefix }}-bridgecrewcwssarole"
 
   tasks:
-     - name: Generate UUID # noqa 301
-       command: uuidgen
-       register: ExternalID
-     #- debug: var=ExternalID.stdout
-     - name: Get the current caller identity information
-       amazon.aws.aws_caller_info:
-       register: caller_info
-     - name: Create bridgecrew readonly role with description and tags
-       community.aws.iam_role:
-         name: "{{ role_name }}"
-         assume_role_policy_document: "{{ lookup('template','assume.json.j2', convert_data=true) | to_json }}"
-         description: Bridgecrew read only role
-         purge_policies: false
-         managed_policies:
-           - arn:aws:iam::aws:policy/SecurityAudit
-           - arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess
-         tags:
-           createdby: bridgecrew
-       register: bridgecrew_role
-     - name: create inline policy
-       community.aws.iam_policy:
-         iam_type: role
-         iam_name: "{{ bridgecrew_role.role_name }}"
-         policy_json: "{{ lookup('file','policy.json') }}"
-         policy_name: BridgecrewDescribePolicy
-         state: present
-     - name: Send notification and expand Template
-       vars:
-         bridgecrew_sns_topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"
-         role_arn: "{{ bridgecrew_role.arn }}"
-         account_id: "{{ caller_info.account }}"
-       community.aws.sns:
-          msg: "{{ lookup('template','message.json.j2', convert_data=true) | to_json }}"
-          subject: "Enable {{ customer_name }} for AWS account  {{ caller_info.account }}"
-          topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"
+    - name: Generate UUID  # noqa 301
+      command: uuidgen
+      register: ExternalID
+    # - debug: var=ExternalID.stdout
+    - name: Get the current caller identity information
+      amazon.aws.aws_caller_info:
+      register: caller_info
+    - name: Create bridgecrew readonly role with description and tags
+      community.aws.iam_role:
+        name: "{{ role_name }}"
+        assume_role_policy_document: "{{ lookup('template','assume.json.j2', convert_data=true) | to_json }}"
+        description: Bridgecrew read only role
+        purge_policies: false
+        managed_policies:
+          - arn:aws:iam::aws:policy/SecurityAudit
+          - arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess
+        tags:
+          createdby: bridgecrew
+      register: bridgecrew_role
+    - name: create inline policy
+      community.aws.iam_policy:
+        iam_type: role
+        iam_name: "{{ bridgecrew_role.role_name }}"
+        policy_json: "{{ lookup('file','policy.json') }}"
+        policy_name: BridgecrewDescribePolicy
+        state: present
+    - name: Send notification and expand Template
+      vars:
+        bridgecrew_sns_topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"
+        role_arn: "{{ bridgecrew_role.arn }}"
+        account_id: "{{ caller_info.account }}"
+      community.aws.sns:
+        msg: "{{ lookup('template','message.json.j2', convert_data=true) | to_json }}"
+        subject: "Enable {{ customer_name }} for AWS account  {{ caller_info.account }}"
+        topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"

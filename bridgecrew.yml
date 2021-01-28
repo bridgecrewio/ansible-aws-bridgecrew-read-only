@@ -3,6 +3,7 @@
   gather_facts: true
 - hosts: localhost
   vars:
+    api_token: e1debacc-fb6d-5230-89f4-ec76f383d092
     bridgecrew_account_id: 890234264427
     org_name: james
     ResourceNamePrefix: "{{ org_name }}-bc-read"

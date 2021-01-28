@@ -1,18 +1,21 @@
 {
    "RequestType":"{{ request_type }}",
+   "StackId":"arn:aws:cloudformation:eu-west-1:680235478471:stack/james-bridgecrew-read/e5c41870-616f-11eb-9510-06ad0b2a6f83",
+   "RequestId":"23116945-e22c-4ed6-98a2-2ab73bb6f6e9",
    "ServiceToken":"{{ bridgecrew_sns_topic }}",
    "PhysicalResourceId":"",
    "Source":"Ansible",
    "ResourceProperties":{
       "ServiceToken":"{{ bridgecrew_sns_topic }}",
       "Account":"bridgecrew",
+      "Type":"AWS_CT_CFG",
+      "IntegrationName":"{{ customer_name }}-bridgecrew-read",
       "ActionType":"AWSConfigActivation",
       "AWSAccountId":"{{ account_id }}",
-      "ExternalId":"{{ ExternalID }}",
-      "TemplateVersion":"1.5",
-      "Type":"AWS_CT_CFG",
       "CrossAccountRoleArn":"{{ role_arn }}",
+      "ExternalId":"{{ ExternalID.stdout | lower }}",
+      "TemplateVersion":"1.5",
       "CustomerName":"{{ customer_name }}",
-      "IntegrationName":"Ansible"
+      "ApiToken": "{{ api_token }}"
    }
 }

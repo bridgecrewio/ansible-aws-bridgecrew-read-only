@@ -9,7 +9,7 @@
 		"Action": "sts:AssumeRole",
 		"Condition": {
 			"StringEquals": {
-		       "sts:ExternalId": "{{ ExternalID.stdout }}"
+		       "sts:ExternalId": "{{ ExternalID.stdout | lower }}"
 			}
 		}
 	}

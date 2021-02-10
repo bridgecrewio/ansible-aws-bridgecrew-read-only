@@ -3,19 +3,24 @@
   gather_facts: true
 - hosts: localhost
   vars:
-    api_token: <xxxxxx-xxx-xxx-xxxxxx>  # from your integrations page in the bridgecrew platform
-    bridgecrew_account_id: 890234264427  # usually 890234264427 for prod
-    org_name: <yourorg>  # changes per user/org
-    ResourceNamePrefix: "{{ org_name }}-bc-read"
     request_type: Create
-    customer_name: "{{ org_name }}"
-    resource_name_prefix: "{{ org_name }}-bc"
-    region: us-west-2  # SNS endpoint has to be in the same region as aws AWS_REGION value
-    role_name: "{{ ResourceNamePrefix }}-bridgecrewcwssarole"
-    topic: "handle-customer-actions"
     template_version: 1.0
+    bridgecrew_account_id: 890234264427
 
   tasks:
+    - name: Check variables
+      vars:
+        msg: |
+          api_token: {{ api_token }}
+          org_name:  {{ org_name }}
+          ResourceNamePrefix: {{ ResourceNamePrefix }}
+          customer_name: {{ org_name }}
+          resource_name_prefix: {{ resource_name_prefix }}
+          region: {{ region }}
+          role_name: {{ role_name }}
+          topic: {{ topic }}
+      debug:
+        msg: "{{ msg.split('\n') }}"
     - name: Generate UUID  # noqa 301
       command: uuidgen
       register: ExternalID

@@ -21,9 +21,14 @@ repos:
     hooks:
       - id: markdownlint
   - repo: git://github.com/adrienverge/yamllint
-    rev: v1.25.0
+    rev: v1.26.0
     hooks:
       - id: yamllint
         files: \.(yaml|yml)$
         types: [file, yaml]
         entry: yamllint --strict
+  - repo: https://github.com/ansible-community/ansible-lint.git
+    rev: v5.0.0
+    hooks:
+      - id: ansible-lint
+        files: \.(yaml|yml)$

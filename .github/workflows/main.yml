@@ -6,8 +6,6 @@ on:  # yamllint disable-line rule:truthy
     branches:
       - main
 env:
-  terraform: 0.14.5
-  tf_target_dir: example/examplea
   branch: main
 jobs:
   security:

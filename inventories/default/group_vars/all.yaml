@@ -1,5 +1,5 @@
 ---
-api_token: <xxxxxx-xxx-xxx-xxxxxx>  # from your integrations page in the bridgecrew platform
+api_token: "{{lookup('env', 'BRIDGECREW_TOKEN')}}"  # from your integrations page in the bridgecrew platform
 org_name: <yourorg>  # changes per user/org
 ResourceNamePrefix: "{{ org_name }}-bc-read"
 customer_name: "{{ org_name }}"

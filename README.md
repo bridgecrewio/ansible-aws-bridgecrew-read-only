@@ -4,13 +4,17 @@ Creates an IAM and Role and then Publishes a message onto SNS.
 
 This Ansible playbook is designed to pick up values from an inventory.
 In the "default" inventory, change the values for the **org_name**
-and **api_token** in *all.yml* to be your own.
-
-The api_token is available from the integrations section of the Bridgecrew platform.
+in *all.yml* to be your own.
 
 ```yaml
-    api_token: <your-token>
     org_name:  <your org name>
+```
+
+The api token is available from the integrations section of the Bridgecrew platform.
+Add it, as an environmental variable:
+
+```bash
+export BRIDGECREW_TOKEN= "xxxxxx-xxxxx-xxxx-xxxxxx"
 ```
 
 To run:

@@ -14,7 +14,6 @@ repos:
       - id: pretty-format-json
         args:
           - --autofix
-      - id: detect-aws-credentials
       - id: detect-private-key
   - repo: git://github.com/igorshubovych/markdownlint-cli
     rev: v0.26.0

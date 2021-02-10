@@ -1,0 +1,19 @@
+---
+# yamllint disable rule:line-length
+name: pull_request
+on: pull_request  # yamllint disable-line rule:truthy
+env:
+  terraform: 0.14.5
+  tf_target_dir: example/examplea
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ github.token }}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: pre-commit/action@v2.0.0

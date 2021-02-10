@@ -1,0 +1,37 @@
+---
+# yamllint disable rule:line-length
+name: Verify and Bump
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+env:
+  terraform: 0.14.5
+  tf_target_dir: example/examplea
+  branch: main
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.branch }}
+          token: ${{ github.token }}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: pre-commit/action@v2.0.0
+  version:
+    name: versioning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Bump version and push tag
+        if: ${{ !env.ACT }}
+        uses: anothrNick/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          WITH_V: "true"
+    needs: [security]

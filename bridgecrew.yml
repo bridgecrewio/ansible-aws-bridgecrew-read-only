@@ -3,21 +3,22 @@
   gather_facts: true
 - hosts: localhost
   vars:
-    api_token: e1debacc-fb6d-5230-89f4-ec76f383d092
-    bridgecrew_account_id: 890234264427
-    org_name: james
+    api_token: <xxxxxx-xxx-xxx-xxxxxx>  # from your integrations page in the bridgecrew platform
+    bridgecrew_account_id: 890234264427  # usually 890234264427 for prod
+    org_name: <yourorg>  # changes per user/org
     ResourceNamePrefix: "{{ org_name }}-bc-read"
     request_type: Create
     customer_name: "{{ org_name }}"
     resource_name_prefix: "{{ org_name }}-bc"
-    region: eu-west-1
+    region: us-west-2  # SNS endpoint has to be in the same region as aws AWS_REGION value
     role_name: "{{ ResourceNamePrefix }}-bridgecrewcwssarole"
+    topic: "handle-customer-actions"
+    template_version: 1.0
 
   tasks:
     - name: Generate UUID  # noqa 301
       command: uuidgen
       register: ExternalID
-    # - debug: var=ExternalID.stdout
     - name: Get the current caller identity information
       amazon.aws.aws_caller_info:
       register: caller_info
@@ -36,16 +37,16 @@
     - name: create inline policy
       community.aws.iam_policy:
         iam_type: role
-        iam_name: "{{ bridgecrew_role.role_name }}"
+        iam_name: "{{ role_name }}"
         policy_json: "{{ lookup('file','policy.json') }}"
         policy_name: BridgecrewDescribePolicy
         state: present
     - name: Send notification and expand Template
       vars:
-        bridgecrew_sns_topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"
+        bridgecrew_sns_topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:{{ topic }}"
         role_arn: "{{ bridgecrew_role.arn }}"
         account_id: "{{ caller_info.account }}"
       community.aws.sns:
         msg: "{{ lookup('template','message.json.j2', convert_data=true) | to_json }}"
         subject: "Enable {{ customer_name }} for AWS account  {{ caller_info.account }}"
-        topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:handle-customer-actions"
+        topic: "arn:aws:sns:{{ region }}:{{ bridgecrew_account_id }}:{{ topic }}"

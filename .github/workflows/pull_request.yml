@@ -2,8 +2,7 @@
 # yamllint disable rule:line-length
 name: pull_request
 on: pull_request  # yamllint disable-line rule:truthy
-env:
-  terraform: 0.14.5
+
 jobs:
   security:
     runs-on: ubuntu-latest

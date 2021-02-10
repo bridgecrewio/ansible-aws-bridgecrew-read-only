@@ -4,7 +4,6 @@ name: pull_request
 on: pull_request  # yamllint disable-line rule:truthy
 env:
   terraform: 0.14.5
-  tf_target_dir: example/examplea
 jobs:
   security:
     runs-on: ubuntu-latest

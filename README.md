@@ -1,6 +1,6 @@
 # Role
 
-Creates an IAM Role and then Publishes a message onto an SNS topic.
+Creates an IAM Role and then Publishes a message onto a Bridgecrew SNS topic.
 
 This Ansible playbook is designed to pick up values from an inventory.
 In the "default" inventory, change the values for the **org_name**
